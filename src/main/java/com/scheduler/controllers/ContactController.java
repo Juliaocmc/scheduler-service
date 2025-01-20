@@ -5,8 +5,10 @@ import com.scheduler.models.forms.ContactForm;
 import com.scheduler.models.response.ContactResponse;
 import com.scheduler.models.response.PageableContactResponse;
 import com.scheduler.services.IContactService;
+import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,10 +57,15 @@ public class ContactController {
   }
   
   @PostMapping
-  public ContactResponse createContact(
-      @RequestBody ContactForm contactForm
+  public ResponseEntity<ContactResponse> createContact(
+      @Valid @RequestBody ContactForm contactForm
   ) {
-    return this.contactService.createContact(contactForm);
+    try {
+      return ResponseEntity.ok(this.contactService.createContact(contactForm));
+    } catch (Exception e) {
+      var message = "An error occurred while trying to create the contact";
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+    }
   }
   
   @PutMapping("/{contactId}")

@@ -1,12 +1,38 @@
 package com.scheduler.models.forms;
 
-public class SchedulerForm {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
 
+public class SchedulerForm {
+  
+  @NotBlank(message = "Date is required")
+  @Pattern(
+      regexp = "\\d{4}-\\d{2}-\\d{2}",
+      message = "Date must be in the format yyyy-MM-dd"
+  )
   private String date;
+  
+  @NotBlank(message = "Start hour is required")
+  @Pattern(
+      regexp = "^(?:[01]\\d|2[0-3]):[0-5]\\d$",
+      message = "Start hour must be 00:00"
+  )
   private String startHour;
+  
+  @NotBlank(message = "End hour is required")
+  @Pattern(
+      regexp = "^(?:[01]\\d|2[0-3]):[0-5]\\d$",
+      message = "End hour must be 00:00"
+  )
   private String endHour;
+  
+  @NotBlank(message = "Local is required")
   private String local;
+  
+  @Positive(message = "Contact ID must be a positive number")
   private int contactId;
+  
   
   public String getDate() {
     return date;

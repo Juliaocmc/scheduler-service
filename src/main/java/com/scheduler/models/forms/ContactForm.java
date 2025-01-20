@@ -1,10 +1,26 @@
 package com.scheduler.models.forms;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 public class ContactForm {
   
+  @NotBlank(message = "Name is required")
+  @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
   private String name;
+  
+  @NotBlank(message = "Email is required")
+  @Email(message = "Invalid email format")
   private String email;
+  
+  @NotBlank(message = "Phone is required")
+  @Pattern(regexp = "\\d{11}", message = "Phone must be between 11 digits")
   private String phone;
+  
+  @NotBlank(message = "Document is required")
+  @Pattern(regexp = "\\d{11}", message = "Document must be 11 digits")
   private String document;
   
   public String getName() {
