@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -30,11 +31,11 @@ public class Contact {
   
   @CreationTimestamp
   @Column(name = "contact_created_at")
-  private String createdAt;
+  private LocalDateTime createdAt;
   
   @UpdateTimestamp
   @Column(name = "contact_updated_at")
-  private String updatedAt;
+  private LocalDateTime updatedAt;
   
   public int getId() {
     return id;
@@ -76,19 +77,19 @@ public class Contact {
     this.document = document;
   }
   
-  public String getCreatedAt() {
+  public LocalDateTime getCreatedAt() {
     return createdAt;
   }
   
-  public void setCreatedAt(String createdAt) {
+  public void setCreatedAt(LocalDateTime createdAt) {
     this.createdAt = createdAt;
   }
   
-  public String getUpdatedAt() {
+  public LocalDateTime getUpdatedAt() {
     return updatedAt;
   }
   
-  public void setUpdatedAt(String updatedAt) {
+  public void setUpdatedAt(LocalDateTime updatedAt) {
     this.updatedAt = updatedAt;
   }
   

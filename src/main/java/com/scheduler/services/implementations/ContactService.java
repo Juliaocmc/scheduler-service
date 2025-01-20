@@ -30,11 +30,10 @@ public class ContactService implements IContactService {
         .map(mapper::ContactsResponse)
         .collect(Collectors.toList());
     
-    // TOTAL de itens e paginas
     var allContacts = this.contactsRepository.findAll()
         .stream()
         .map(mapper::ContactsResponse)
-        .collect(Collectors.toList());
+        .toList();
     var totalPages = String.valueOf(allContacts.size() / sizeInt);
     var totalElements = String.valueOf(allContacts.size());
     
@@ -50,7 +49,7 @@ public class ContactService implements IContactService {
 
   @Override
   public ContactResponse createContact(ContactForm contactForm) {
-    var contact = mapper.ContactForm(contactForm);
+    var contact = mapper.Contact(contactForm);
     this.contactsRepository.save(contact);
     return mapper.ContactsResponse(contact);
 
