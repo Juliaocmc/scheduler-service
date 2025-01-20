@@ -1,17 +1,26 @@
 package com.scheduler.controllers;
 
+import com.scheduler.handlers.exceptions.ContactNotFoundException;
 import com.scheduler.models.forms.ContactForm;
 import com.scheduler.models.response.ContactResponse;
+import com.scheduler.models.response.PageableContactResponse;
 import com.scheduler.services.IContactService;
 import java.util.List;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.server.ResponseStatusException;
 
-@RestController("/contact")
+@RestController
+@RequestMapping("/contact")
 public class ContactController {
   
   private final IContactService contactService;
@@ -21,39 +30,66 @@ public class ContactController {
   }
   
   @GetMapping
-  public List<ContactResponse> getAllContacts(
+  public PageableContactResponse getAllContacts(
       @Param("page") String page,
       @Param("size") String size
   ) {
-    return this.contactService.getAllContacts(page, size);
+    try {
+      return this.contactService.getAllContacts(page, size);
+    } catch (Exception e) {
+      var message = "An error occurred while trying to get all contacts";
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+    }
   }
   
   @GetMapping("/{contactId}")
   public ContactResponse getContactById(
-      @Param("contactId") int contactId
+      @PathVariable("contactId") int contactId
   ) {
-    return this.contactService.getContactById(contactId);
+    try {
+      return this.contactService.getContactById(contactId);
+    } catch (ContactNotFoundException e) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+    } catch (Exception e) {
+      var message = "An error occurred while trying to get the contact";
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+    }
   }
   
   @PostMapping
-  public ContactResponse createContact(ContactForm contactForm) {
+  public ContactResponse createContact(
+      @RequestBody ContactForm contactForm
+  ) {
     return this.contactService.createContact(contactForm);
   }
   
   @PutMapping("/{contactId}")
   public ContactResponse updateContact(
-      @Param("contactId") int contactId,
-      ContactForm contactForm
+      @PathVariable("contactId") int contactId,
+      @RequestBody ContactForm contactForm
   ) {
-    return this.contactService.updateContact(contactId, contactForm);
+    try {
+      return this.contactService.updateContact(contactId, contactForm);
+    } catch (ContactNotFoundException e) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+    } catch (Exception e) {
+      var message = "An error occurred while trying to update the contact";
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+    }
   }
   
   @DeleteMapping("/{contactId}")
   public void deleteContact(
-      @Param("contactId") int contactId
+      @PathVariable("contactId") int contactId
   ) {
-    this.contactService.deleteContact(contactId);
+    try {
+      this.contactService.deleteContact(contactId);
+    } catch (ContactNotFoundException e) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+    } catch (Exception e) {
+      var message = "An error occurred while trying to delete the contact";
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+    }
   }
-  
   
 }

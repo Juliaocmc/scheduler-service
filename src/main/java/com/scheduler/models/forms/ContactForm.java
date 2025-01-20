@@ -7,16 +7,6 @@ public class ContactForm {
   private String phone;
   private String document;
   
-  public ContactForm() {
-  }
-  
-  public ContactForm(String name, String email, String phone, String document) {
-    this.name = name;
-    this.email = email;
-    this.phone = phone;
-    this.document = document;
-  }
-  
   public String getName() {
     return name;
   }

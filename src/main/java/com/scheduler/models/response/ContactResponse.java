@@ -2,7 +2,7 @@ package com.scheduler.models.response;
 
 public class ContactResponse {
   
-  private int contactId;
+  private String id;
   private String name;
   private String email;
   private String phone;
@@ -10,19 +10,19 @@ public class ContactResponse {
   
   
   public ContactResponse(int contactId, String name, String email, String phone, String document) {
-    this.contactId = contactId;
-    this.name = name;
-    this.email = email;
-    this.phone = phone;
+    this.id       = String.valueOf(contactId);
+    this.name     = name;
+    this.email    = email;
+    this.phone    = phone;
     this.document = document;
   }
   
-  public int getContactId() {
-    return contactId;
+  public String getId() {
+    return id;
   }
   
-  public void setContactId(int contactId) {
-    this.contactId = contactId;
+  public void setId(String id) {
+    this.id = id;
   }
   
   public String getName() {

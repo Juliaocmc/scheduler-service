@@ -2,13 +2,13 @@ package com.scheduler.services;
 
 import com.scheduler.models.forms.ContactForm;
 import com.scheduler.models.response.ContactResponse;
-import java.util.List;
+import com.scheduler.models.response.PageableContactResponse;
 import org.springframework.stereotype.Component;
 
 @Component
 public interface IContactService {
   
-  List<ContactResponse> getAllContacts(String page, String size);
+  PageableContactResponse getAllContacts(String page, String size);
   
   ContactResponse getContactById(int  contact);
   
